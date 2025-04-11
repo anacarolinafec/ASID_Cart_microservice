@@ -59,6 +59,7 @@ public class CartItemServiceImpl implements CartItemService{
 
     }
 
+//list cart items
    public List<CartItem> getAllCartitem(){
         return cartItemRepository.findAll();
     }
