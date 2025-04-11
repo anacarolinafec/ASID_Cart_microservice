@@ -1,40 +1,40 @@
 services:
-  mysql-order:
+  mysql-cart:
     image: mysql:8.0.0
-    container_name: mysql-order
+    container_name: mysql-cart
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: order_db
-      MYSQL_USER: order_user
-      MYSQL_PASSWORD: order_pass
+      MYSQL_DATABASE: cart_db
+      MYSQL_USER: cart_user
+      MYSQL_PASSWORD: cart_pass
     ports:
       # expor localmente na porta 3307 - "3307:3307"
-      - "3308:3306"
+      - "3309:3306"
     volumes:
-      - mysql-order-data:/var/lib/mysql
+      - mysql-cart-data:/var/lib/mysql
     networks:
-      - order-network
+      - cart-network
     command: --disable-ssl --skip-ssl
 
-  order-service:
+  cart-service:
     build: .
     profiles:
       - application
-    container_name: order-service
+    container_name: cart-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-order:3306/order_db
-      SPRING_DATASOURCE_USERNAME: order_user
-      SPRING_DATASOURCE_PASSWORD: order_pass
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cart:3306/cart_db
+      SPRING_DATASOURCE_USERNAME: cart_user
+      SPRING_DATASOURCE_PASSWORD: cart_pass
     depends_on:
-      - mysql-order
+      - mysql-cart
       #- rabbitmq
     ports:
-      - "8083:8083"
+      - "8084:8084"
     command: >
       sh -c "
         echo 'Aguardando MySQL...';
-        until mysqladmin ping -h mysql-order --silent; do
+        until mysqladmin ping -h mysql-cart --silent; do
           echo 'Ainda não disponivel...';
           sleep 2;
         done;
@@ -42,10 +42,10 @@ services:
         java -jar app.jar
       "
     networks:
-      - order-network
+      - cart-network
 
 volumes:
-  mysql-order-data:
+  mysql-cart-data:
 
 networks:
-  order-network:
+  cart-network:

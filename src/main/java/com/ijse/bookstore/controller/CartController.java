@@ -1,5 +1,6 @@
 package com.ijse.bookstore.controller;
 
+import com.ijse.bookstore.dto.CartCreationDto;
 import com.ijse.bookstore.entity.Cart;
 import com.ijse.bookstore.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,9 @@ public class CartController {
     
     @Autowired
     private CartService cartService;
-    // private UserRepository userRepository;
 
     @PostMapping("/cart")
-    public ResponseEntity<Cart> createCart(@RequestBody BookCreationDto cartCreationDto){
+    public ResponseEntity<Cart> createCart(@RequestBody CartCreationDto cartCreationDto){
 
         Cart updatedCart = cartService.createCart(cartCreationDto);
 
@@ -33,7 +33,6 @@ public class CartController {
         return new ResponseEntity<>(existcart,HttpStatus.OK);
     }
 
-    /*
     @GetMapping("/cart/{userId}")
     public ResponseEntity<Cart> getCartIdByUserId(@PathVariable Long userId) {
 
@@ -45,7 +44,7 @@ public class CartController {
             return ResponseEntity.notFound().build();
         }
     }
-    */
+
 }
 
 

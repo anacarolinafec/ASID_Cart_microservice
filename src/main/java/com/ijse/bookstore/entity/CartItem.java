@@ -21,8 +21,7 @@ public class CartItem {
     @Column
     private Double subTotal;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
+    @Column
     private long bookid;
 
     @ManyToOne

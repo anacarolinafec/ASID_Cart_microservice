@@ -55,6 +55,7 @@ public class CartItemController {
         return new ResponseEntity<>(patchedCartItem,HttpStatus.CREATED);
     }
 
+    /*
     @PatchMapping("/subtotal/{id}")
     public ResponseEntity<CartItem> patchCartSubTotal(@PathVariable Long id , @RequestBody CartItem cartItem){
 
@@ -62,6 +63,7 @@ public class CartItemController {
 
         return new ResponseEntity<>(patchedCartItem,HttpStatus.CREATED);
     }
+    */
 
     @DeleteMapping("/clearcart")
     public ResponseEntity<String> clearCart(){

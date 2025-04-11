@@ -18,10 +18,11 @@ public class Cart {
     @Column
     private LocalDate createdDate;
 
-    @OneToOne
-    @JoinColumn(name="user_id")
-    @JsonIgnore
-    private User user;
+    @Column
+    private Long userId;
+
+    @Column
+    private Double total;
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<>();

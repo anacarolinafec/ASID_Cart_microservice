@@ -15,7 +15,7 @@ public class BookServiceHTTPClient {
     private final String bookServiceUrl;
 
     public BookServiceHTTPClient(RestTemplate restTemplate,
-                                 @Value("${cart.service.url}") String bookServiceUrl) {
+                                 @Value("${book.service.url}") String bookServiceUrl) {
         this.restTemplate = restTemplate;
         this.bookServiceUrl = bookServiceUrl;
     }

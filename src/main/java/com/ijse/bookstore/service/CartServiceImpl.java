@@ -1,15 +1,17 @@
 package com.ijse.bookstore.service;
 
+import com.ijse.bookstore.client.UserServiceHTTPClient;
+import com.ijse.bookstore.dto.CartCreationDto;
+import com.ijse.bookstore.dto.UserResponseDTO;
 import com.ijse.bookstore.entity.Cart;
 import com.ijse.bookstore.entity.CartItem;
-import com.ijse.bookstore.entity.User;
 import com.ijse.bookstore.repository.CartItemRepository;
 import com.ijse.bookstore.repository.CartRepository;
-import com.ijse.bookstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,19 +21,26 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private CartRepository cartRepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private CartItemRepository cartItemRepository;
+    @Autowired
+    private UserServiceHTTPClient userServiceHTTPClient;
 
 
     @Override
-    public Cart createCart(BookCreationDto cartCreationDto) {
+    public Cart createCart(CartCreationDto cartCreationDto) {
 
-        //User user_id = userRepository.findById(cartCreationDto.getId_user()).orElseThrow();
+        UserResponseDTO user = userServiceHTTPClient.getUserById(cartCreationDto.getId_user())
+                .orElseThrow(() -> new IllegalArgumentException("User nao existe"));
+
+        List<CartItem> cartItems = new ArrayList<>();
 
         Cart cart = new Cart();
-        cart.setUser(user_id);
-        cart.setCreatedDate(LocalDate.now()); // backend define isto
+        cart.setCreatedDate(LocalDate.now());
+        cart.setUserId(user.getId());
+        cart.setCartItems(cartItems);
+
+        double total = 0.0;
+        cart.setTotal(total);
 
         return cartRepository.save(cart);
     }
@@ -48,15 +57,8 @@ public class CartServiceImpl implements CartService{
         return cartRepository.getCartIdByUserId(userId);
     }
 
-    public double calculateCartTotal(long userId) {
-        Cart cart = cartRepository.getCartIdByUserId(userId);
-        Long cartId = cart.getId();
 
-        List<CartItem> items = cartItemRepository.findByCartId(cartId);
 
-        return items.stream()
-                .mapToDouble(CartItem::getSubTotal)
-                .sum();
-    }
+
 
 }
