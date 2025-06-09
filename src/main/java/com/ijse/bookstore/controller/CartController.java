@@ -37,13 +37,14 @@ public class CartController {
     public ResponseEntity<Cart> getCartIdByUserId(@PathVariable Long userId) {
 
         Cart cartId = cartService.getCartIdByUserId(userId);
-
         if (cartId != null) {
             return new ResponseEntity<>(cartId, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
 }
 

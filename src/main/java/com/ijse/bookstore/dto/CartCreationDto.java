@@ -4,7 +4,5 @@ import lombok.Data;
 
 @Data
 public class CartCreationDto {
-
     private Long id_user;
-
 }
